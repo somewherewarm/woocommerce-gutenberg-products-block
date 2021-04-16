@@ -90,7 +90,13 @@ class ProductTagControl extends Component {
 
 	render() {
 		const { list, loading } = this.state;
-		const { onChange, onOperatorChange, operator, selected } = this.props;
+		const {
+			isCompact,
+			onChange,
+			onOperatorChange,
+			operator,
+			selected,
+		} = this.props;
 
 		const messages = {
 			clear: __(
@@ -136,6 +142,7 @@ class ProductTagControl extends Component {
 					onSearch={ LIMIT_TAGS ? this.debouncedOnSearch : null }
 					renderItem={ this.renderItem }
 					messages={ messages }
+					isCompact={ isCompact }
 					isHierarchical
 				/>
 				{ !! onOperatorChange && (
@@ -197,9 +204,11 @@ ProductTagControl.propTypes = {
 	 * The list of currently selected tags.
 	 */
 	selected: PropTypes.array.isRequired,
+	isCompact: PropTypes.bool,
 };
 
 ProductTagControl.defaultProps = {
+	isCompact: false,
 	operator: 'any',
 };
 

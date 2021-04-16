@@ -21,6 +21,7 @@ const ProductAttributeTermControl = ( {
 	onChange,
 	onExpandAttribute,
 	onOperatorChange,
+	isCompact,
 	isLoading,
 	operator,
 	selected,
@@ -144,6 +145,7 @@ const ProductAttributeTermControl = ( {
 				onChange={ onChange }
 				renderItem={ renderItem }
 				messages={ messages }
+				isCompact={ isCompact }
 				isHierarchical
 			/>
 			{ !! onOperatorChange && (
@@ -209,12 +211,14 @@ ProductAttributeTermControl.propTypes = {
 	error: PropTypes.object,
 	expandedAttribute: PropTypes.number,
 	onExpandAttribute: PropTypes.func,
+	isCompact: PropTypes.bool,
 	isLoading: PropTypes.bool,
 	termsAreLoading: PropTypes.bool,
 	termsList: PropTypes.object,
 };
 
 ProductAttributeTermControl.defaultProps = {
+	isCompact: false,
 	operator: 'any',
 };
 

@@ -85,6 +85,7 @@ class ProductsByAttributeBlock extends Component {
 						onOperatorChange={ ( value = 'any' ) =>
 							setAttributes( { attrOperator: value } )
 						}
+						isCompact={ true }
 					/>
 				</PanelBody>
 				<PanelBody

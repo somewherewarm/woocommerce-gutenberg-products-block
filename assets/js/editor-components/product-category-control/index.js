@@ -22,6 +22,7 @@ const ProductCategoryControl = ( {
 	onOperatorChange,
 	operator,
 	selected,
+	isCompact,
 	isSingle,
 	showReviewCount,
 } ) => {
@@ -142,6 +143,7 @@ const ProductCategoryControl = ( {
 				onChange={ onChange }
 				renderItem={ renderItem }
 				messages={ messages }
+				isCompact={ isCompact }
 				isHierarchical
 				isSingle={ isSingle }
 			/>
@@ -203,6 +205,7 @@ ProductCategoryControl.propTypes = {
 	 * The list of currently selected category IDs.
 	 */
 	selected: PropTypes.array.isRequired,
+	isCompact: PropTypes.bool,
 	/**
 	 * Allow only a single selection. Defaults to false.
 	 */
@@ -211,6 +214,7 @@ ProductCategoryControl.propTypes = {
 
 ProductCategoryControl.defaultProps = {
 	operator: 'any',
+	isCompact: false,
 	isSingle: false,
 };
 

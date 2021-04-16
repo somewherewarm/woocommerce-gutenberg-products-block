@@ -134,6 +134,7 @@ class ProductByCategoryBlock extends Component {
 							setAttributes( changes );
 							this.setChangedAttributes( changes );
 						} }
+						isCompact={ true }
 					/>
 				</PanelBody>
 				<PanelBody
