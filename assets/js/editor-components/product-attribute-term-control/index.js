@@ -8,6 +8,7 @@ import { SearchListControl, SearchListItem } from '@woocommerce/components';
 import { SelectControl, Spinner } from '@wordpress/components';
 import { withAttributes } from '@woocommerce/block-hocs';
 import ErrorMessage from '@woocommerce/editor-components/error-placeholder/error-message.js';
+import classNames from 'classnames';
 
 /**
  * Internal dependencies
@@ -40,20 +41,18 @@ const ProductAttributeTermControl = ( {
 		const classes = [
 			'woocommerce-product-attributes__item',
 			'woocommerce-search-list__item',
+			{
+				'is-searching': search.length > 0,
+				'is-skip-level': depth === 0 && item.parent !== 0,
+			},
 		];
-		if ( search.length ) {
-			classes.push( 'is-searching' );
-		}
-		if ( depth === 0 && item.parent ) {
-			classes.push( 'is-skip-level' );
-		}
 
 		if ( ! item.breadcrumbs.length ) {
 			return [
 				<SearchListItem
 					key={ `attr-${ item.id }` }
 					{ ...args }
-					className={ classes.join( ' ' ) }
+					className={ classNames( ...classes ) }
 					isSelected={ expandedAttribute === item.id }
 					onSelect={ onSelectAttribute }
 					isSingle
@@ -87,9 +86,8 @@ const ProductAttributeTermControl = ( {
 
 		return (
 			<SearchListItem
-				className={ classes.join( ' ' ) }
+				className={ classNames( ...classes, 'has-count' ) }
 				{ ...args }
-				showCount
 				aria-label={ `${ item.breadcrumbs[ 0 ] }: ${ item.name }` }
 			/>
 		);
