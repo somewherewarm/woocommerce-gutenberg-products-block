@@ -15,6 +15,53 @@ import classNames from 'classnames';
  */
 import './style.scss';
 
+const ExpandableSearchListItem = ( {
+	className,
+	item,
+	isSelected,
+	termsAreLoading,
+	onChange,
+	onExpandAttribute,
+	...rest
+} ) => {
+	const onSelectAttribute = ( { id } ) => {
+		return () => {
+			onChange( [] );
+			onExpandAttribute( id );
+		};
+	};
+
+	return (
+		<>
+			<SearchListItem
+				{ ...rest }
+				key={ `attr-${ item.id }` }
+				className={ className }
+				isSelected={ isSelected }
+				item={ item }
+				onSelect={ onSelectAttribute }
+				isSingle
+				disabled={ item.count === '0' }
+				name="depth-0"
+			/>
+			{ isSelected && termsAreLoading && (
+				<div
+					key="loading"
+					className={ classNames(
+						'woocommerce-search-list__item',
+						'woocommerce-product-attributes__item',
+						'depth-1',
+						'is-loading',
+						'is-not-active'
+					) }
+				>
+					<Spinner />
+				</div>
+			) }
+		</>
+	);
+};
+
 const ProductAttributeTermControl = ( {
 	attributes,
 	error,
@@ -29,13 +76,6 @@ const ProductAttributeTermControl = ( {
 	termsAreLoading,
 	termsList,
 } ) => {
-	const onSelectAttribute = ( item ) => {
-		return () => {
-			onChange( [] );
-			onExpandAttribute( item.id );
-		};
-	};
-
 	const renderItem = ( args ) => {
 		const { item, search, depth = 0 } = args;
 		const classes = [
@@ -48,16 +88,18 @@ const ProductAttributeTermControl = ( {
 		];
 
 		if ( ! item.breadcrumbs.length ) {
-			return [
-				<SearchListItem
-					key={ `attr-${ item.id }` }
+			const isSelected = expandedAttribute === item.id;
+			return (
+				<ExpandableSearchListItem
 					{ ...args }
-					className={ classNames( ...classes ) }
-					isSelected={ expandedAttribute === item.id }
-					onSelect={ onSelectAttribute }
-					isSingle
-					disabled={ item.count === '0' }
-					aria-expanded={ expandedAttribute === item.id }
+					className={ classNames( ...classes, {
+						'is-selected': isSelected,
+					} ) }
+					isSelected={ isSelected }
+					item={ item }
+					onChange={ onChange }
+					onExpandAttribute={ onExpandAttribute }
+					termsAreLoading={ termsAreLoading }
 					aria-label={ sprintf(
 						/* translators: %1$s is the item name, %2$d is the count of terms for the item. */
 						_n(
@@ -69,25 +111,14 @@ const ProductAttributeTermControl = ( {
 						item.name,
 						item.count
 					) }
-				/>,
-				expandedAttribute === item.id && termsAreLoading && (
-					<div
-						key="loading"
-						className={
-							'woocommerce-search-list__item woocommerce-product-attributes__item' +
-							'depth-1 is-loading is-not-active'
-						}
-					>
-						<Spinner />
-					</div>
-				),
-			];
+				/>
+			);
 		}
 
 		return (
 			<SearchListItem
-				className={ classNames( ...classes, 'has-count' ) }
 				{ ...args }
+				className={ classNames( ...classes, 'has-count' ) }
 				aria-label={ `${ item.breadcrumbs[ 0 ] }: ${ item.name }` }
 			/>
 		);
