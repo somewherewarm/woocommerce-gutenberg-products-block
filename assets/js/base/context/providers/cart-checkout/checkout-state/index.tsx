@@ -40,10 +40,6 @@ import { useCheckoutNotices } from '../../../hooks/use-checkout-notices';
 import { useEmitResponse } from '../../../hooks/use-emit-response';
 import { isObject } from '../../../../utils/type-guards';
 
-/**
- * @typedef {import('@woocommerce/type-defs/contexts').CheckoutDataContext} CheckoutDataContext
- */
-
 const CheckoutContext = createContext( DEFAULT_CHECKOUT_STATE_DATA );
 
 export const useCheckoutContext = (): CheckoutStateContextType => {
